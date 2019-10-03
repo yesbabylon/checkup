@@ -1,0 +1,139 @@
+
+<div class="container" ng-hide="ctrl.show_result_pane">
+<form name="formURL">
+    <div class="container">					
+        <h1 style="text-align:center">Quel niveau de performance et de sécurité?</h1>
+        <p class="text-center" style="margin-top: 20px;">Testez gratuitement plus de 30 points de contrôle pour connaître la qualité de votre site !</p>
+    </div>
+    <div ng-show="formURL.inputURL.$touched && formURL.inputURL.$invalid" style="position: absolute; font-size: 20px; color: limegreen;">Indiquez le nom de domaine si le site est à la racine (example.com) ou une URL complète (http://example.com/fr)</div>
+    <div ng-show="ctrl.errors.server" style="position: absolute; font-size: 20px; color: indianred;">Oups. Le serveur ne répond pas ou a renvoyé un code d'erreur.</div>    
+	<div class="input-group" style="height: 75px; margin-top: 35px; margin-bottom: 35px;">
+		<span class="input-group-addon" style="width: 10%; font-size: 3rem;"><i class="fa fa-link" aria-hidden="true"></i></span>
+		<input  name="inputURL" 
+                ng-model="ctrl.URL" 
+                ng-keydown="keydown($event)"
+                ng-focus="ctrl.resetErrors()"
+                type="url" 
+                class="form-control" 
+                placeholder="Domaine ou URL" 
+                style="font-size: calc(10px + 2vw); font-weight: 500;" />
+		<span class="input-group-btn">
+		<button ng-click="run()" class="btn btn-primary" type="submit" style="font-size: 24px; font-weight: 500;">&nbsp;&nbsp;Vérifier <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+		</span>
+    </div>
+</form>    
+</div>
+
+
+<div class="container" ng-show="ctrl.show_result_pane" >
+    <div class="container">					
+        <h1 style="text-align:center"><a href="{{ctrl.URL}}" target="_blank">{{ctrl.URL}}</a></h1>
+        <p class="text-center" style="margin-top: 20px;"></p>
+    </div>
+    <div class="row">    
+        <div class="col-xs-12 col-sm-6 col-md-4">
+
+            <div class="checkup-line-section"><i class="fa fa-tachometer" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#performance" target="_blank" title="En savoir plus">Performance <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
+            <div class="checkup-line-percent">
+                <div id="section-loader-PER" class="section-loader" ng-show="results['PER']['loading']"></div>            
+                <div class="c100 p{{results['PER']['percent']}} {{results['PER']['color']}} big" ng-hide="results['PER']['loading']">
+                    <span>{{results['PER']['percent']}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkup-line-score">Score: {{results['PER']['score']}}/{{results['PER']['tests']}}</div>            
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="checkup-line-section"><i class="fa fa-shield" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#securite" target="_blank" title="En savoir plus">Sécurité <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
+            <div class="checkup-line-percent">
+                <div id="section-loader-SEC" class="section-loader" ng-show="results['SEC']['loading']"></div>                        
+                <div class="c100 p{{results['SEC']['percent']}} {{results['SEC']['color']}} big" ng-hide="results['SEC']['loading']">
+                    <span>{{results['SEC']['percent']}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkup-line-score">Score: {{results['SEC']['score']}}/{{results['SEC']['tests']}}</div>            
+        </div>
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="checkup-line-section"><i class="fa fa-mobile" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#adaptabilite" target="_blank" title="En savoir plus">Adaptabilité <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
+            <div class="checkup-line-percent">
+                <div id="section-loader-ADA" class="section-loader" ng-show="results['ADA']['loading']"></div>                                    
+                <div class="c100 p{{results['ADA']['percent']}} {{results['ADA']['color']}} big" ng-hide="results['ADA']['loading']">
+                    <span>{{results['ADA']['percent']}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkup-line-score">Score: {{results['ADA']['score']}}/{{results['ADA']['tests']}}</div>            
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="checkup-line-section"><i class="fa fa-plug" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#integrabilite" target="_blank" title="En savoir plus">Intégrabilité <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
+            <div class="checkup-line-percent">
+                <div id="section-loader-INT" class="section-loader" ng-show="results['INT']['loading']"></div>
+                <div class="c100 p{{results['INT']['percent']}} {{results['INT']['color']}} big" ng-hide="results['INT']['loading']">
+                    <span>{{results['INT']['percent']}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkup-line-score">Score: {{results['INT']['score']}}/{{results['INT']['tests']}}</div>            
+        </div>
+        
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="checkup-line-section"><i class="fa fa-search-plus" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#visibilite" target="_blank" title="En savoir plus">Visibilité <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
+            <div class="checkup-line-percent">
+                <div id="section-loader-VIS" class="section-loader" ng-show="results['VIS']['loading']"></div>            
+                <div class="c100 p{{results['VIS']['percent']}} {{results['VIS']['color']}} big" ng-hide="results['VIS']['loading']">
+                    <span>{{results['VIS']['percent']}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkup-line-score">Score: {{results['VIS']['score']}}/{{results['VIS']['tests']}}</div>            
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="checkup-line-section"><i class="fa fa-legal" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#legalite" target="_blank" title="En savoir plus">Légalité <i class="fa fa-question-circle quest-cicrle" aria-hidden="true"></i></a></div>
+            <div class="checkup-line-percent">
+                <div id="section-loader-LEG" class="section-loader" ng-show="results['LEG']['loading']"></div>            
+                <div class="c100 p{{results['LEG']['percent']}} {{results['LEG']['color']}} big" ng-hide="results['LEG']['loading']">
+                    <span>{{results['LEG']['percent']}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkup-line-score">Score: {{results['LEG']['score']}}/{{results['LEG']['tests']}}</div>            
+        </div>
+    </div>
+    <div class="row" style="margin-top: 30px; margin-bottom: 40px;">
+        <div class="col-xs-12">
+            <div style="text-align: center; font-size: 22px; font-weight: 600; padding-bottom: 10px;">Curieux d'en savoir plus ? Recevez gratuitement le rapport détaillé.</div>
+        </div>
+        <div class="col-xs-12 col-md-3"></div>
+        <div class="col-xs-12 col-md-6">        
+            <button class="btn btn-lg btn-primary" style="width: 100%; height: 8rem; font-size: 30px; font-weight: 600;">Recevoir le rapport</button>
+        </div>
+        <div class="col-xs-12 col-md-3"></div>
+    </div>
+    
+</div>
+
+

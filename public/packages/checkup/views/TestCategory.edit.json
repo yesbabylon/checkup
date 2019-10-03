@@ -1,0 +1,12 @@
+[
+    {
+        "field": "name"
+    },
+    {
+        "field": "description"
+    },
+    {
+        "field": "tests_ids",
+		"label": "Tests"
+    }	
+]

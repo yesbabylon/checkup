@@ -1,0 +1,113 @@
+html, body {
+  height: 100%;
+}
+
+main {
+  min-height: 100%;    
+}
+
+main > .container {
+  overflow: hidden;
+  padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+footer {
+    position: relative;
+    margin-top: -150px; /* negative value of footer height */
+    height: 150px;
+    clear:both;
+    padding-top:20px;
+    background-color: #f8f8f8;
+    border-top: solid 1px #e7e7e7;
+}
+
+
+.loader {
+    position: absolute;
+    cursor: wait;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    font-size: 30px;
+}
+
+div[ng-view] {
+    margin-top: 70px;
+}
+
+/* 
+  Allow angular.js to be loaded in body, hiding cloaked elements until 
+  templates compile.  The !important is important given that there may be 
+  other selectors that are more specific or come later and might alter display.  
+ */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+
+.c100 {
+    margin: 0;
+}
+
+.c100.big {
+    font-size: 180px; /*scss*/
+}
+
+.checkup-line-section {
+    display: block;
+    width: 100%.
+    font-weight: 500;
+    font-size: 2.3em;
+    text-align: center;
+}
+
+.checkup-line-section .fa {
+    font-size: 1.2em !important;
+}
+
+.checkup-line-section .fa.quest-cicrle {
+    font-size: 0.5em!important; 
+    vertical-align: super;
+}
+
+.checkup-line-score {
+    display: block;
+    width: 100%;
+    font-size: 1.3em;
+    text-align:center;
+}
+
+.checkup-line-percent {
+    display: block;
+    width: 100%;
+    height: 190px; /*scss*/
+    margin-left: calc(50% - 90px);
+}
+
+
+.section-loader {
+  border: 16px solid #f3f3f3; 
+  border-top: 16px solid #3498db; 
+  border-radius: 50%;
+  width: 180px; /*scss*/
+  height: 180px; /*scss*/
+  animation: section-spin 2s linear infinite;
+}
+
+@keyframes section-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+h1 {
+
+    font-weight: 600;
+    letter-spacing: -3px;
+    font-size:calc(10px + 5vw);
+}
+
+.navbar-collapse.in {
+    overflow-y: hidden;
+}
+

@@ -1,0 +1,37 @@
+<div class="container">
+
+    <nav role="navigation">
+
+        <div class="nav navbar-header">
+            <button type="button" class="navbar-toggle" ng-click="rootCtrl.isNavCollapsed = !rootCtrl.isNavCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" style="padding: 7px;"><img style="height: 35px;" src="/packages/checkup/apps/assets/img/digital_facile_logo_inline.png" /></a>			
+        </div>
+        
+        <div class="collapse navbar-collapse" uib-collapse="rootCtrl.isNavCollapsed">
+            <ul class="nav navbar-nav">        
+                <li><a href="#getting_started">Comment fonctionne le test ?</a></li>
+                <li class="dropdown" uib-dropdown>
+                    <a role="button" uib-dropdown-toggle>
+                        Détail des tests <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li><a href="#accordion">Performance</a></li>
+                        <li><a href="#alert">Sécurité</a></li>
+                        <li><a href="#buttons">Adaptabilité</a></li>
+                        <li><a href="#carousel">Intégrabilité</a></li>
+                        <li><a href="#carousel">Visibiltié</a></li>
+                        <li><a href="#carousel">Légalité</a></li>                        
+                    </ul>
+                </li>                
+                <li><a href="#getting_started">Contact</a></li>
+            </ul>    
+        </div>
+        
+    </nav>
+    
+</div>

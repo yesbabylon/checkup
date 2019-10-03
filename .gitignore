@@ -1,0 +1,9 @@
+/node_modules/
+/vendor/
+/spool/
+/bin/
+/cache/
+/log/
+/config/config.inc.php
+composer.phar
+omposer.lock

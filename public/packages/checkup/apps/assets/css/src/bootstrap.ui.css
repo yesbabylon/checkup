@@ -1,0 +1,8 @@
+.navbar-collapse.in {
+    overflow-y: hidden;
+}
+
+.navbar-inner {
+    -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.175);
+    box-shadow: 0 3px 3px rgba(0,0,0,0.175);
+}

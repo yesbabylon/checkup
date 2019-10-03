@@ -1,0 +1,17 @@
+[
+    {
+        "field":  "id"
+    },
+    {
+        "field": "value"
+    },
+    {
+        "field": "pass"
+    },    
+    {
+        "field": "test_id"
+    },
+    {
+        "field": "category"
+    }    
+]

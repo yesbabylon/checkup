@@ -1,0 +1,12 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "dependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-cssmin": "~3.0.0",
+    "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-uglify": "~4.0.1",
+    "grunt-contrib-watch": "~1.1.0",
+    "grunt-contrib-clean": "~2.0.0"    
+  }
+}

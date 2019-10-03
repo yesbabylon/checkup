@@ -1,0 +1,11 @@
+[
+    {
+        "field":  "id"
+    },
+    {
+        "field": "date"
+    },
+    {
+        "field": "domain"
+    }
+]

@@ -1,0 +1,18 @@
+[
+    {
+        "field":  "id"
+    },
+    {
+        "field": "name"
+    },
+    {
+        "field": "type"
+    },    
+    {
+        "field": "description"
+    },
+    {
+        "field": "category_id",
+        "label": "category"
+    }    
+]

@@ -1,0 +1,15 @@
+[
+    {
+        "field":  "id"
+    },
+    {
+        "field": "date"
+    },
+    {
+        "field": "domain"
+    },
+    {
+        "field": "results_ids",
+		"label": "Results"        
+    }
+]
