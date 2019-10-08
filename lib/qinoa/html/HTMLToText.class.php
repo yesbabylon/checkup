@@ -38,7 +38,7 @@ class HTMLToText {
      * @return string
      */
     public static function convert($value, $linebreaks=true) {
-        // convert unbreakable spaces to whitespaces
+        // convert unbreakable spaces to whitespaces (mind the charset of THIS file)
         $value = str_replace(" ", ' ', $value);
         $lineseparator = ($linebreaks)?"\n":' ';
         // add spaces to closing tags that imply line-return (block nodes)
@@ -52,7 +52,9 @@ class HTMLToText {
         $value = $purifier->purify($value);
         if($linebreaks) {
             // strip multiple horizontal whitespaces (preserve carriage returns)
-            $value = preg_replace('/\h+/u', ' ', $value);
+            $value = preg_replace('/[ \t]+/', ' ', $value);
+            // strip multiple linebreaks
+            $value = preg_replace("/([ \t]*[\r\n]+)+/", "\n", $value);
         }
         else {
             // strip multiple spaces (including carriage returns)

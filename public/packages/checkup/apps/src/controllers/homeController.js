@@ -1,6 +1,6 @@
 angular.module('project')
 
-.controller('homeController', ['$http', '$scope', '$rootScope', '$location', '$interval', '$q', function($http, $scope, $rootScope, $location, $interval, $q) {
+.controller('homeController', ['$http', '$scope', '$rootScope', '$location', '$interval', '$q', '$uibModal', 'ngToast', '$timeout', function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast, $timeout) {
     console.log('home controller');  
     
     var ctrl = this;
@@ -10,7 +10,7 @@ angular.module('project')
     };
     
 	ctrl.show_result_pane = false;
-    ctrl.report_id = null;
+    $rootScope.report_id = null;
     ctrl.URL = '';
     
     ctrl.resetErrors = function() {
@@ -99,6 +99,7 @@ angular.module('project')
         });
            
         // request a report ID for given domain
+        // POST /api/report {url}
 		$http({
 			method: 'GET',
 			url: '/index.php?get=checkup_report-id&url='+ctrl.URL
@@ -109,16 +110,16 @@ angular.module('project')
                 ctrl.show_result_pane = true;
                 
                 var json = response.data;
-                ctrl.report_id = json.report_id;
+                $rootScope.report_id = json.report_id;
 
                 // run available checks
                 $q.all([                                
-                    $http.get('/index.php?do=checkup_performance&report_id='+ctrl.report_id),
-                    $http.get('/index.php?do=checkup_security&report_id='+ctrl.report_id),
-                    $http.get('/index.php?do=checkup_adaptability&report_id='+ctrl.report_id),
-                    $http.get('/index.php?do=checkup_legality&report_id='+ctrl.report_id),
-                    $http.get('/index.php?do=checkup_integrability&report_id='+ctrl.report_id),
-                    $http.get('/index.php?do=checkup_visibility&report_id='+ctrl.report_id)
+                    $http.get('/index.php?do=checkup_performance&report_id='+$rootScope.report_id),
+                    $http.get('/index.php?do=checkup_security&report_id='+$rootScope.report_id),
+                    $http.get('/index.php?do=checkup_adaptability&report_id='+$rootScope.report_id),
+                    $http.get('/index.php?do=checkup_legality&report_id='+$rootScope.report_id),
+                    $http.get('/index.php?do=checkup_integrability&report_id='+$rootScope.report_id),
+                    $http.get('/index.php?do=checkup_visibility&report_id='+$rootScope.report_id)
 
                 ]).then(function() {
 
@@ -128,10 +129,10 @@ angular.module('project')
                         angular.forEach($scope.results, function (item, category) {
                             // skip tests already displayed
                             if( $scope.results[category]['loading']) {
-                            
+                                // GET /api/report/:id/:category
                                 $http({
                                     method: 'GET',
-                                    url: '/index.php?get=checkup_result&report_id='+ctrl.report_id+'&category='+category
+                                    url: '/index.php?get=checkup_result&report_id='+$rootScope.report_id+'&category='+category
                                 })
                                 .then(
                                     function success(response) {
@@ -201,5 +202,67 @@ angular.module('project')
         
        
 	}
-	
+
+
+    $scope.popup = function () {
+
+            var modalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'emailModal.html',
+                controllerAs: 'ctrl',
+                controller: function($scope, $rootScope) {
+                    var ctrl = this;
+                    $scope.errors = [];
+                    $scope.result = '';
+                    
+                    ctrl.send = function() {
+                        $scope.errors = [];
+                        if(!$scope.form_login.email.$valid) {
+                            $scope.errors.push('La syntaxe de l\'adresse email entrée n\'est pas reconnue');
+                        }
+
+                        if($scope.errors.length) return;
+                        $http({
+                            method: 'GET',
+                            url: '/index.php?do=checkup_send-report',
+                            params: {
+                                report_id:  $rootScope.report_id,
+                                email: $scope.email
+                            }
+                        })
+                        .then(
+                            function success(json) {                                                               
+                                console.log(json);
+
+                                ngToast.success({
+                                  content: '<b>Rapport</b>: message correctement envoyé',
+                                  dismissButton:true
+                                });							
+								
+                                $timeout(function() {
+                                    modalInstance.close();
+                                }, 100);
+                                
+                            },
+                            function error(result) {
+                                console.log(result);
+                                $scope.result = 'Vérifiez l\'adresse email';
+                                $timeout(function() {
+                                    $scope.result = '';
+                                }, 1000);
+                                ngToast.danger({
+                                  content: '<b>Erreur</b>: impossible d\envoyer le rapport',
+                                  dismissButton:true
+                                });
+                            }
+                        );                        
+                        
+                    };
+                },
+                size: 'sm',
+                appendTo: angular.element(document.querySelector('.modal-wrapper')),
+            });
+        };
 }]);
