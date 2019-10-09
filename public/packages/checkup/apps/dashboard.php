@@ -138,7 +138,7 @@
                     </div>
                 </div>
                 <div class="modal-footer" >
-                    <button class="btn btn-success" type="submit" ng-click="ctrl.send()">Envoyer</button>
+                    <button class="btn btn-success" type="submit" ng-click="ctrl.send()"><i ng-show="running" class="fa fa-spinner fa-spin" aria-hidden="true"></i> Envoyer</button>
                 </div>
             </form>
         </script> 

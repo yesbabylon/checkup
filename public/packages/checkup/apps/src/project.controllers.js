@@ -216,14 +216,19 @@ angular.module('project')
                     var ctrl = this;
                     $scope.errors = [];
                     $scope.result = '';
+                    $scope.running = false;
                     
                     ctrl.send = function() {
+                        $scope.running = true;
                         $scope.errors = [];
                         if(!$scope.form_login.email.$valid) {
                             $scope.errors.push('La syntaxe de l\'adresse email entrée n\'est pas reconnue');
                         }
 
-                        if($scope.errors.length) return;
+                        if($scope.errors.length) {
+                            $scope.running = false;
+                            return;
+                        }
                         $http({
                             method: 'GET',
                             url: '/index.php?do=checkup_send-report',
@@ -237,13 +242,14 @@ angular.module('project')
                                 console.log(json);
 
                                 ngToast.success({
-                                  content: '<b>Rapport</b>: message correctement envoyé',
+                                  content: '<b>Rapport envoyé</b>: consultez votre boite email',
                                   dismissButton:true
                                 });							
 								
                                 $timeout(function() {
+                                    $scope.running = false;
                                     modalInstance.close();
-                                }, 500);
+                                }, 100);
                                 
                             },
                             function error(result) {

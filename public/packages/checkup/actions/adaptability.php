@@ -74,7 +74,7 @@ if( count($results) == 0 ) {
     $evidences = [
         'materializecss'    =>  ['materialize'], // materialize.min.js
         'bulma.io'          =>  ['bulma'],       // bulma.min.cjs
-        'foundation'        =>  ['foundation'],  // foundation.min.js
+        'zurb foundation'   =>  ['foundation'],  // foundation.min.js
         'bootstrap'         =>  ['bootstrap'],   // bootstrap.min.css
         'cssgrids'          =>  ['cssgrids'],    // cssgrids-min.css
         'uikit'             =>  ['uikit'],       // uikit.min.js
@@ -93,8 +93,9 @@ if( count($results) == 0 ) {
     if(!$responsive) {
         
         $evidences = [
-            "bootstrap" => ['col-xs-', 'col-sm-', 'col-md-', 'col-lg-', 'col-xl-' ],
-            "bulma"     => ['is-full', 'is-offset', 'is-half', 'is-3', 'is-6', 'is-12' ]            
+            "bootstrap"         => ['col-xs-', 'col-sm-', 'col-md-', 'col-lg-', 'col-xl-' ],
+            "bulma"             => ['is-full', 'is-offset', 'is-half', 'is-3', 'is-6', 'is-12' ],
+            "zurb foundation"   => ['show-for-', 'hide-for-', 'align-self-', 'grid-padding-']
         ];        
 
         foreach($evidences as $tested_framework => $clues) {
