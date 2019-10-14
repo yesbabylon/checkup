@@ -569,7 +569,7 @@ angular.module('project')
                                 console.log(json);
 
                                 ngToast.success({
-                                  content: '<b>Rapport envoyé</b>: consultez votre boite email',
+                                  content: '<b>Rapport envoyé</b>: consultez votre boite email!',
                                   dismissButton:true
                                 });							
 								
@@ -586,7 +586,7 @@ angular.module('project')
                                     $scope.result = '';
                                 }, 1000);
                                 ngToast.danger({
-                                  content: '<b>Erreur</b>: impossible d\envoyer le rapport',
+                                  content: '<b>Erreur</b>: impossible d\'envoyer le rapport',
                                   dismissButton:true
                                 });
                             }
