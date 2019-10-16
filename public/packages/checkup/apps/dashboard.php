@@ -112,26 +112,31 @@
         <script type="text/ng-template" id="emailModal.html">
             <form name="form_login">        
                 <div class="modal-header">
+                    <center>
                     <h3 class="modal-title" id="modal-title">Recevoir le rapport</h3>
+                    <b>avec les résultats détaillés de plus de 30 points de contrôle</b>
+                    </center>
                 </div>
                 <div class="modal-body" id="modal-body">
                     <div class="login-form" ng-hide="result.length || currentUser">
 
-                        <div class="form-group" ng-class="{'has-error': form_login.email.$touched && form_login.email.$invalid}">
+                        <div class="form-group" ng-class="{'has-error': form_login.$touched && form_login.$invalid}">
                             <input ng-model="email" name="email" type="email" class="form-control" placeholder="Adresse email" required="required">
                         </div>
                         <div class="clearfix" ng-show="errors.length">
                             <div class="panel panel-danger">
-                                <div class="panel-heading" style="padding: 2px 5px;">
-                                    <h3 class="panel-title">erreurs</h3>
-                                </div>
                                 <div class="panel-body">
                                     <div class="text-danger" ng-repeat="error in errors">&bull; {{error}}</div>
                                 </div>
                             </div>                            
                         </div>
-
-                        <p class="text-center">Vie privée: votre adresse email est en sécurité et vous pouvez vous désinscrire à tout moment en un clic ! </p>
+                        <div class="checkbox">
+                            <label style="font-size: 11px;">
+                              <input type="checkbox" ng-model="optin" name="optin" required="required">
+                              En soumettant ce formulaire, j'accepte que les informations saisies soient exploitées dans le cadre de la demande de rapport et de la relation commerciale qui peut en découler.
+                            </label>
+                        </div>
+                        <p class="text-center" ></p>
                     </div>
                     <div ng-show="result.length">
                     {{result}}
@@ -160,6 +165,8 @@
                 <!-- gloabl loader overlay -->
                 <div ng-show="viewContentLoading" class="loader"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></div>
                 <div ng-view ng-hide="viewContentLoading"></div>
+                <div id="section-scroll" ng-show="report_ready" ng-click="scrolldown()">╲╱</div>
+                
             </div>
         </main>
 

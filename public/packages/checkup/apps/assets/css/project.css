@@ -10182,3 +10182,26 @@ h1 {
     overflow-y: hidden;
 }
 
+#section-scroll {
+  position: absolute;
+  color: #f3af3b;
+  width: 6rem;
+  font-size: 2rem;
+  height: 4rem;
+  line-height: 4rem;
+  text-align: center;
+  bottom: 50px;
+  left: 20px;
+  animation: bounce 1s ease infinite;
+  user-select: none;
+  cursor: pointer;
+}
+
+@keyframes bounce {
+  50% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

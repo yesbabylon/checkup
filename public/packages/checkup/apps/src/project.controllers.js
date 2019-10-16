@@ -1,6 +1,8 @@
 angular.module('project')
 
-.controller('homeController', ['$http', '$scope', '$rootScope', '$location', '$interval', '$q', '$uibModal', 'ngToast', '$timeout', function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast, $timeout) {
+.controller('homeController', [
+'$http', '$scope', '$rootScope', '$location', '$interval', '$q', '$uibModal', 'ngToast', '$timeout', 
+function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast, $timeout) {
     console.log('home controller');  
     
     var ctrl = this;
@@ -8,13 +10,15 @@ angular.module('project')
     ctrl.errors = {
         server: false
     };
+
+    // make some variables accessible to the whole App
+    $rootScope.report_id = null;
+    $rootScope.report_ready = false;
     
 	ctrl.show_result_pane = false;
-    $rootScope.report_id = null;
-    ctrl.URL = '';
-    
+    ctrl.URL = '';    
     ctrl.resetErrors = function() {
-            ctrl.errors.server = false;
+        ctrl.errors.server = false;
     };
     
 	function validDomain(str) {
@@ -70,6 +74,7 @@ angular.module('project')
             percent: 100
         }        
     };
+    
     $scope.keydown = function(event) {
         // intercept <enter> keystroke
         if(event.keyCode == 13) {
@@ -77,6 +82,11 @@ angular.module('project')
             $scope.run();
         }
     }
+    
+    $rootScope.scrolldown = function() {
+        document.getElementById('footer').scrollIntoView(false);
+        angular.element(document.getElementById('section-scroll')).css("display", "none");        
+    };
     
 	$scope.run = function() {
         console.log('try to run checkup');        
@@ -92,7 +102,7 @@ angular.module('project')
         // assign sanitized URL
         ctrl.URL = url;
 
-       
+        $rootScope.report_ready = false;
         // UI : set all checks as running
         angular.forEach($scope.results, function(item, key) {
             $scope.results[key]['loading'] = true;
@@ -125,6 +135,7 @@ angular.module('project')
 
                     // request results at time interval
                     $interval(function() {
+                        var remaining_tests = 6;
                         
                         angular.forEach($scope.results, function (item, category) {
                             // skip tests already displayed
@@ -153,6 +164,7 @@ angular.module('project')
                                         var score = 0;
                                         var tests_count = 0;
                                         
+                                        
                                         angular.forEach(json, function(item, key) {
                                             if(item['pass']) ++score;
                                             ++tests_count;
@@ -174,6 +186,11 @@ angular.module('project')
                                         // hack to hide element without waiting for the end of CSS animation
                                         angular.element(document.getElementById("section-loader-"+category)).css("display", "none");
                                         
+                                        --remaining_tests;
+                                        if(!remaining_tests) {
+                                            console.log("report ready");
+                                            $rootScope.report_ready = true;
+                                        }
                                     },
                                     function error() {
                                         // UI : mask loader
@@ -197,9 +214,6 @@ angular.module('project')
                 ctrl.errors.server = true;
             }
         );
-        
-        
-        
        
 	}
 
@@ -222,7 +236,10 @@ angular.module('project')
                         $scope.running = true;
                         $scope.errors = [];
                         if(!$scope.form_login.email.$valid) {
-                            $scope.errors.push('La syntaxe de l\'adresse email entrée n\'est pas reconnue');
+                            $scope.errors.push('La syntaxe de l\'adresse email entrée n\'est pas reconnue.');
+                        }
+                        if(!$scope.form_login.optin.$valid) {
+                            $scope.errors.push('Veuillez valider l\'accord d\'utilisation de données personnelles.');
                         }
 
                         if($scope.errors.length) {
