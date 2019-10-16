@@ -14,8 +14,8 @@ list($params, $providers) = announce([
         'accept-origin' => '*'
     ],    
     'params'        => [
-        'login' =>  [
-            'description'   => 'email address of targeted user.',
+        'user' =>  [
+            'description'   => 'login (email address) or ID of targeted user.',
             'type'          => 'string', 
             'required'      => true
         ],
@@ -45,28 +45,33 @@ $operations = [
     'manage'    =>  QN_R_MANAGE
 ];
 
-if(!isset($operations[$params['right']])) {
-    throw new Exception("unknown operation", QN_ERROR_INVALID_PARAM);
-}
-
 if(!$ac->isAllowed(QN_R_MANAGE, $operation, $params['entity'])) {
     throw new \Exception('MANAGE,'.$params['entity'], QN_ERROR_NOT_ALLOWED);
 }
 
 // retrieve targeted user identifier
-$ids = User::search(['login', '=', $params['login']])->ids();
-if(!count($ids)) { 
-    throw new Exception("no user by that username", QN_ERROR_UNKNOWN_OBJECT);
-}
 
-$user_id = array_shift($ids);
+
+if(is_numeric($params['user'])) {
+    $user_id = $params['user'];
+}
+else {
+    // retrieve by login
+    $ids = User::search(['login', '=', $params['user']])->ids();
+
+    if(!count($ids)) { 
+        throw new \Exception("no user by that username", QN_ERROR_UNKNOWN_OBJECT);
+    }
+
+    $user_id = array_shift($ids);
+}
 
 $ac->grantUsers($user_id, $operations[$params['right']], $params['entity']);
 
 
 $acl_ids = $orm->search('core\Permission', [ ['class_name', '=', $params['entity']], ['user_id', '=', $user_id] ]);       
 if(!count($acl_ids)) {
-    throw new Exception("unable to create ACL", QN_ERROR_UNKNOWN);
+    throw new \Exception("unable to create ACL", QN_ERROR_UNKNOWN);
 }
 
 $acls = $orm->read('core\Permission', $acl_ids, ['user_id', 'class_name', 'rights', 'rights_txt']);

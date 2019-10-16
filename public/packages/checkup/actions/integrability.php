@@ -26,7 +26,7 @@ list($params, $providers) = announce([
     'providers'     => ['context']
 ]);
 
-list($context, $orm, $adapter) = [$providers['context'], $providers['orm'], $providers['adapt']];
+list($context) = [ $providers['context'] ];
 
 list($url, $report_id) = [ $params['url'], $params['report_id'] ];
 

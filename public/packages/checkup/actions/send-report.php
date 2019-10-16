@@ -11,6 +11,7 @@ use checkup\Report;
 use checkup\Result;
 use checkup\Test;
 use checkup\TestCategory;
+use checkup\Mailing;
 
 list($params, $providers) = announce([
     'description'   => "Sends an email requesting full report.",
@@ -119,7 +120,14 @@ $message->setTo($email)
         ->addPart($html, 'text/html');
 
 $mailer = new Swift_Mailer($transport);
-$result = $mailer->send($message);
+$result = $mailer->send($message, $failures);
+
+if(!$result) {
+    throw new \Exception('unable to send message to '.implode(',', $failures), QN_ERROR_UNKNOWN);
+}
+
+// log new mailing for given report
+Mailing::create(['report_id' => $report_id, 'date' => time(), 'email' => $email]);
 
 $context->httpResponse()
         ->status(201)

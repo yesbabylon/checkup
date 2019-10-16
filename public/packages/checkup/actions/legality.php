@@ -59,7 +59,11 @@ if( count($results) == 0 ) {
     // init values to be retrieved
     $tidy_errors = 0;
     $responsive = false;
-
+    $cookies = false;
+    $legal = false;
+    $terms = false;
+    $privacy = false;
+        
     // cURL options (same for all calls)
     $options = [
         CURLOPT_CUSTOMREQUEST  => "GET",        

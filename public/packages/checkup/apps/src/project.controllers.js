@@ -255,13 +255,18 @@ angular.module('project')
                             function error(result) {
                                 console.log(result);
                                 $scope.result = 'Vérifiez l\'adresse email';
-                                $timeout(function() {
-                                    $scope.result = '';
-                                }, 1000);
+
                                 ngToast.danger({
                                   content: '<b>Erreur</b>: impossible d\'envoyer le rapport',
                                   dismissButton:true
                                 });
+
+                                $timeout(function() {
+                                    $scope.result = '';
+                                    $scope.running = false;
+                                    modalInstance.close();                                    
+                                }, 1000);
+                                
                             }
                         );                        
                         
