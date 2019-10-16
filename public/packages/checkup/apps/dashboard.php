@@ -71,11 +71,6 @@
         
         <link rel="stylesheet" type="text/css" href="/packages/checkup/apps/assets/css/project.min.css?v=" />
 
-<style>
-.input-group-addon, .input-group-btn .btn, .input-group input {
-
-}	
-</style>
         <script>
         /* global config object, when necessary */
         var global_config = {
