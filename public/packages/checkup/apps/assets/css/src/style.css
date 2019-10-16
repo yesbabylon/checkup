@@ -101,10 +101,15 @@ div[ng-view] {
 }
 
 h1 {
-
     font-weight: 600;
     letter-spacing: -3px;
     font-size:calc(10px + 5vw);
+}
+
+@media (max-width: 500px) {
+    h1 {    
+        letter-spacing: 0;
+    }
 }
 
 .navbar-collapse.in {

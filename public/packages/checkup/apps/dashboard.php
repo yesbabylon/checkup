@@ -73,7 +73,7 @@
 
 <style>
 .input-group-addon, .input-group-btn .btn, .input-group input {
-	height: 100%;
+
 }	
 </style>
         <script>
