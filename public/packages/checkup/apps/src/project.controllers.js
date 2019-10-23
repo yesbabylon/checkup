@@ -106,7 +106,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
                 element.setCustomValidity('URL ou domaine invalide');
             });            
             ctrl.errors.url = true;
-            $scope.formURL.reportValidity();
+            $scope.formURL[0].reportValidity();
             return;
         }
         else { 
