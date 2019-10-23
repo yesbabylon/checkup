@@ -91,15 +91,16 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
 	$scope.run = function() {
         console.log('try to run checkup');        
         
+        
 		// sanitize URL (input element value might be invalid)
-        var url = $scope.formURL.inputURL.$viewValue; 
+        var url = ctrl.URL; 
+        
 		if(url.indexOf('http://') == -1 && url.indexOf('https://') == -1) {
 			url = 'http://'+url;
 		}
 		// still invalid ? then abort
 		if( !validURL(url) )  return;
-
-        // assign sanitized URL
+        // re-assign sanitized URL
         ctrl.URL = url;
 
         $rootScope.report_ready = false;
