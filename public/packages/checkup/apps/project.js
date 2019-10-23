@@ -429,8 +429,17 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
 		// still invalid ? then abort
 		if( !validURL(url) )  {
             console.log('invalid URL:' + url);
+            document.getElementsByName('inputURL').forEach(function(element) {
+                element.setCustomValidity('URL ou domaine invalide');
+            });            
             ctrl.errors.url = true;
+            $scope.formURL.reportValidity();
             return;
+        }
+        else { 
+            document.getElementsByName('inputURL').forEach(function(element) {
+                element.setCustomValidity('');
+            });
         }
         // assign sanitized URL
         ctrl.URL = url;
