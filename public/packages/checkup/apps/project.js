@@ -335,6 +335,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
     var ctrl = this;
     
     ctrl.errors = {
+        url: false,
         server: false
     };
 
@@ -345,6 +346,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
 	ctrl.show_result_pane = false;
     ctrl.URL = '';    
     ctrl.resetErrors = function() {
+        ctrl.errors.url = false;
         ctrl.errors.server = false;
     };
     
@@ -417,10 +419,9 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
     
 	$scope.run = function() {
         console.log('try to run checkup');        
-        
-        
+                
 		// sanitize URL (input element value might be invalid)
-        var url =  angular.element(document.getElementById("inputURL")).val();
+        var url =  ctrl.URL;
         
 		if(url.indexOf('http://') == -1 && url.indexOf('https://') == -1) {
 			url = 'http://'+url;
@@ -428,6 +429,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
 		// still invalid ? then abort
 		if( !validURL(url) )  {
             console.log('invalid URL:' + url);
+            ctrl.errors.url = true;
             return;
         }
         // assign sanitized URL

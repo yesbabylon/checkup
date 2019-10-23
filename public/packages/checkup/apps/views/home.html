@@ -5,7 +5,7 @@
         <h1 style="text-align:center">Quel niveau de performance et de sécurité?</h1>
         <p class="text-center" style="margin-top: 20px;">Testez gratuitement plus de 30 points de contrôle pour connaître la qualité de votre site !</p>
     </div>
-    <div ng-show="formURL.inputURL.$touched && formURL.inputURL.$invalid" style="position: absolute; font-size: 20px; color: limegreen;">Indiquez le nom de domaine si le site est à la racine (example.com) ou une URL complète (http://example.com/fr)</div>
+    <div ng-show="ctrl.errors.url" style="position: absolute; font-size: 20px; color: limegreen;">Indiquez le nom de domaine si le site est à la racine (example.com) ou une URL complète (http://example.com/fr)</div>
     <div ng-show="ctrl.errors.server" style="position: absolute; font-size: 20px; color: indianred;">Oups. Le serveur ne répond pas ou a renvoyé un code d'erreur.</div>    
 	<div class="input-group hidden-xs" style="margin-top: 35px; margin-bottom: 35px;">
 		<span class="input-group-addon" style="width: 10%; font-size: 3rem; height: 57pt;"><i class="fa fa-link" aria-hidden="true"></i></span>
@@ -13,7 +13,7 @@
                 ng-model="ctrl.URL" 
                 ng-keydown="keydown($event)"
                 ng-focus="ctrl.resetErrors()"
-                type="url" 
+                type="text" 
                 class="form-control" 
                 placeholder="Domaine ou URL" 
                 style="font-size: calc(10px + 2vw); font-weight: 500; height: 57pt;" />
@@ -26,11 +26,10 @@
             <div class="input-group">
                 <span class="input-group-addon" style="width: 10%; font-size: 3rem; height: 50px;"><i class="fa fa-link" aria-hidden="true"></i></span>
                 <input  name="inputURL" 
-                        id="inputURL" 
                         ng-model="ctrl.URL" 
                         ng-keydown="keydown($event)"
                         ng-focus="ctrl.resetErrors()"
-                        type="url" 
+                        type="text" 
                         class="form-control" 
                         placeholder="Domaine ou URL" 
                         style="font-size: calc(10px + 2vw); font-weight: 500; height: 50px;" />
