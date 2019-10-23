@@ -93,14 +93,14 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
         
         
 		// sanitize URL (input element value might be invalid)
-        var url = ctrl.URL; 
+        var url =  angular.element(document.getElementById("inputURL")).val();
         
 		if(url.indexOf('http://') == -1 && url.indexOf('https://') == -1) {
 			url = 'http://'+url;
 		}
 		// still invalid ? then abort
 		if( !validURL(url) )  return;
-        // re-assign sanitized URL
+        // assign sanitized URL
         ctrl.URL = url;
 
         $rootScope.report_ready = false;
