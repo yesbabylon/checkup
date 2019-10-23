@@ -3,7 +3,7 @@
         "field":  "id"
     },
     {
-        "field": "date"
+        "field": "created"
     },
     {
         "field": "domain"
