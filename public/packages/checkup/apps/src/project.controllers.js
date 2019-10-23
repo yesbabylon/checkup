@@ -99,7 +99,10 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
 			url = 'http://'+url;
 		}
 		// still invalid ? then abort
-		if( !validURL(url) )  return;
+		if( !validURL(url) )  {
+            console.log('invalid URL:' + url);
+            return;
+        }
         // assign sanitized URL
         ctrl.URL = url;
 
