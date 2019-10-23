@@ -59,7 +59,7 @@ else {
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HEADER         => true,    
         CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_ENCODING       => "",       // handle all encodings
+        CURLOPT_ENCODING       => "UTF-8",      
         CURLOPT_AUTOREFERER    => true,     // set referer on redirect
         CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
         CURLOPT_TIMEOUT        => 120,      // timeout on response
@@ -86,7 +86,7 @@ else {
     $report = Report::create([
                                 'domain'    => $domain, 
                                 'url'       => $url, 
-                                'content'   => sanitize_utf8($content)
+                                'content'   => utf8_encode($content)
                             ])->first();
 
     $report_id = $report['id'];
