@@ -59,7 +59,7 @@ else {
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HEADER         => true,    
         CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_ENCODING       => "UTF-8",       // accept all encodings
+        CURLOPT_ENCODING       => "",       // handle all encodings
         CURLOPT_AUTOREFERER    => true,     // set referer on redirect
         CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
         CURLOPT_TIMEOUT        => 120,      // timeout on response
@@ -73,13 +73,22 @@ else {
     // normalize URL (add trailing slash if missing)
     if(substr($url, -1) != '/') $url .= '/';
     curl_close($ch);
-
-   
+       
+    // utf8/utf8mb4 fix
+        
+    function sanitize_utf8($string, $replacement = '') {
+        return preg_replace('%(?:
+              \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+            | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+            | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+        )%xs', $replacement, $string);    
+    }
+    $content = mb_convert_encoding($content, "UTF-8", mb_detect_encoding($content, 'UTF-8, ISO-8859-1'));
+    
     $report = Report::create([
                                 'domain'    => $domain, 
-                                'url'       => $url,
-                                'content'   => $content
-                                // 'content'   => mb_convert_encoding( $content, "UTF-8", mb_detect_encoding($content) )
+                                'url'       => $url, 
+                                'content'   => sanitize_utf8($content)
                             ])->first();
 
     $report_id = $report['id'];
