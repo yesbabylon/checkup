@@ -311,10 +311,12 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
 
     (function init() {
         if(window.location.hash) {
-            console.log(window.location.hash);
+            var hash = window.location.hash.substr(1);
+            ctrl.URL = hash;
+            $scope.run();
         }
         else {
-            console.log('no hash found');
+            console.log('(no hash found)');
         }
     })();
 }]);
