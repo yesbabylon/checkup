@@ -208,6 +208,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
                                         $scope.results[category]['loading'] = false;
                                         // hack to hide element without waiting for the end of CSS animation
                                         angular.element(document.getElementById("section-loader-"+category)).css("display", "none");
+                                        angular.element(document.getElementById("section-result-"+category)).css("display", "block");
                                         
                                         --remaining_tests;
                                         if(!remaining_tests) {
@@ -220,7 +221,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
                                         $scope.results[category]['loading'] = false;
                                         // hack to hide element without waiting for the end of CSS animation
                                         angular.element(document.getElementById("section-loader-"+category)).css("display", "none");
-                                        
+                                        angular.element(document.getElementById("section-result-"+category)).css("display", "block");
                                     }
                                 ); 
                             }                
