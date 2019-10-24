@@ -108,8 +108,8 @@
             <form name="form_login">        
                 <div class="modal-header">
                     <center>
-                    <h3 class="modal-title" id="modal-title">Recevoir le rapport</h3>
-                    <b>avec les résultats détaillés de plus de 30 points de contrôle</b>
+                    <h3 class="modal-title" id="modal-title">Je veux recevoir le rapport</h3>
+                    avec les résultats détaillés de <b>plus&nbsp;de&nbsp;30</b> points de contrôle
                     </center>
                 </div>
                 <div class="modal-body" id="modal-body">
