@@ -313,7 +313,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
                         
                     };
                 },
-                size: 'md',
+                size: 'sm',
                 appendTo: angular.element(document.querySelector('.modal-wrapper')),
             });
         };
