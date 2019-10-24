@@ -74,8 +74,10 @@ else {
     if(substr($url, -1) != '/') $url .= '/';
     curl_close($ch);
        
-    // utf8/utf8mb4 fix
-        
+    // convert to UTF8 if necessary
+    $content = mb_convert_encoding($content, "UTF-8", mb_detect_encoding($content, 'UTF-8, ISO-8859-1'));
+
+    // utf8/utf8mb4 fix (in case DBMS does not support utf8mb4)
     function sanitize_utf8($string, $replacement = '') {
         return preg_replace('%(?:
               \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
@@ -83,7 +85,7 @@ else {
             | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
         )%xs', $replacement, $string);    
     }
-    $content = mb_convert_encoding($content, "UTF-8", mb_detect_encoding($content, 'UTF-8, ISO-8859-1'));
+
     
     $report = Report::create([
                                 'domain'    => $domain, 
