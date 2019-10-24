@@ -308,4 +308,10 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
                 appendTo: angular.element(document.querySelector('.modal-wrapper')),
             });
         };
+
+    (function init() {
+        if(window.location.hash) {
+            console.log(window.location.hash);
+        }
+    })();
 }]);
