@@ -122,7 +122,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
         angular.forEach($scope.results, function(item, key) {
             $scope.results[key]['loading'] = true;
         });
-           
+        console.log($scope.results);
         // request a report ID for given domain
         // POST /api/report {url}
 		$http({
