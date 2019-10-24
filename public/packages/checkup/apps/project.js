@@ -587,10 +587,10 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
                         $scope.running = true;
                         $scope.errors = [];
                         if(!$scope.form_login.email.$valid) {
-                            $scope.errors.push('La syntaxe de l\'adresse email entrée n\'est pas reconnue.');
+                            $scope.errors.push('Ouille, la syntaxe de l\'adresse email entrée n\'est pas reconnue.');
                         }
                         if(!$scope.form_login.optin.$valid) {
-                            $scope.errors.push('Veuillez valider l\'accord d\'utilisation de données personnelles.');
+                            $scope.errors.push('Merci de valider l\'accord d\'utilisation de données personnelles.');
                         }
 
                         if($scope.errors.length) {
@@ -610,7 +610,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
                                 console.log(json);
 
                                 ngToast.success({
-                                  content: '<b>Rapport envoyé</b>: consultez votre boite email!',
+                                  content: '<b>Rapport envoyé</b>: consultez votre boite email !',
                                   dismissButton:true
                                 });							
 								
