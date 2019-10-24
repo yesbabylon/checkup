@@ -43,37 +43,43 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
             score: 0,
             tests: 0,
             color: 'blue',
-            percent: 100
+            percent: 100,
+            loading: true
         },
         SEC: {
             score: 0,
             tests: 0,
             color: 'blue',
-            percent: 100
+            percent: 100,
+            loading: true
         },
         INT: {
             score: 0,
             tests: 0,
             color: 'blue',
-            percent: 100
+            percent: 100,
+            loading: true
         },
         ADA: {
             score: 0,
             tests: 0,
             color: 'blue',
-            percent: 100
+            percent: 100,
+            loading: true
         },
         LEG: {
             score: 0,
             tests: 0,
             color: 'blue',
-            percent: 100
+            percent: 100,
+            loading: true
         },
         VIS: {
             score: 0,
             tests: 0,
             color: 'blue',
-            percent: 100
+            percent: 100,
+            loading: true
         }        
     };
     
