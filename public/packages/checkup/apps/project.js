@@ -636,18 +636,18 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
             });
         };
 
-    (function init() {
+    $scope.init = function() {
         if(window.location.hash) {
-            var hash = window.location.hash.substr(1);            
-            $scope.$apply(function(){
-                ctrl.URL = hash;    
-                $scope.run();
-            });            
+            var hash = window.location.hash.substr(1);
+            ctrl.URL = hash;    
+            $scope.run();
         }
         else {
             console.log('(no hash found)');
         }
-    })();
+    };
+    
+    $scope.init();
 }]);
 angular.module('project')
 
