@@ -449,7 +449,7 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
         angular.forEach($scope.results, function(item, key) {
             $scope.results[key]['loading'] = true;
         });
-        console.log($scope.results);
+
         // request a report ID for given domain
         // POST /api/report {url}
 		$http({
@@ -638,9 +638,11 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
 
     (function init() {
         if(window.location.hash) {
-            var hash = window.location.hash.substr(1);
-            ctrl.URL = hash;
-            $scope.run();
+            var hash = window.location.hash.substr(1);            
+            $scope.$apply(function(){
+                ctrl.URL = hash;    
+                $scope.run();
+            });            
         }
         else {
             console.log('(no hash found)');
