@@ -125,8 +125,10 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
 
         $rootScope.report_ready = false;
         // UI : set all checks as running
-        angular.forEach($scope.results, function(item, key) {
-            $scope.results[key]['loading'] = true;
+        angular.forEach($scope.results, function(item, category) {
+            $scope.results[category]['loading'] = true;
+            // hack to force immediate hiding
+            angular.element(document.getElementById("section-result-"+category)).css("display", "none");
         });
 
         // request a report ID for given domain

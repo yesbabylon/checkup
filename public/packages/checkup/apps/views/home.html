@@ -54,7 +54,7 @@
             <div class="checkup-line-section"><i class="fa fa-tachometer" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#performance" target="_blank" title="En savoir plus">Performance <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
             <div class="checkup-line-percent">
                 <div id="section-loader-PER" class="section-loader" ng-show="results['PER']['loading']"></div>            
-                <div class="c100 p{{results['PER']['percent']}} {{results['PER']['color']}} big" ng-hide="results['PER']['loading']">
+                <div id="section-result-PER" class="c100 p{{results['PER']['percent']}} {{results['PER']['color']}} big" ng-hide="results['PER']['loading']">
                     <span>{{results['PER']['percent']}}%</span>
                     <div class="slice">
                         <div class="bar"></div>
@@ -69,7 +69,7 @@
             <div class="checkup-line-section"><i class="fa fa-shield" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#securite" target="_blank" title="En savoir plus">Sécurité <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
             <div class="checkup-line-percent">
                 <div id="section-loader-SEC" class="section-loader" ng-show="results['SEC']['loading']"></div>                        
-                <div class="c100 p{{results['SEC']['percent']}} {{results['SEC']['color']}} big" ng-hide="results['SEC']['loading']">
+                <div id="section-result-SEC" class="c100 p{{results['SEC']['percent']}} {{results['SEC']['color']}} big" ng-hide="results['SEC']['loading']">
                     <span>{{results['SEC']['percent']}}%</span>
                     <div class="slice">
                         <div class="bar"></div>
@@ -85,7 +85,7 @@
             <div class="checkup-line-section"><i class="fa fa-mobile" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#adaptabilite" target="_blank" title="En savoir plus">Adaptabilité <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
             <div class="checkup-line-percent">
                 <div id="section-loader-ADA" class="section-loader" ng-show="results['ADA']['loading']"></div>                                    
-                <div class="c100 p{{results['ADA']['percent']}} {{results['ADA']['color']}} big" ng-hide="results['ADA']['loading']">
+                <div id="section-result-ADA" class="c100 p{{results['ADA']['percent']}} {{results['ADA']['color']}} big" ng-hide="results['ADA']['loading']">
                     <span>{{results['ADA']['percent']}}%</span>
                     <div class="slice">
                         <div class="bar"></div>
@@ -100,7 +100,7 @@
             <div class="checkup-line-section"><i class="fa fa-plug" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#integrabilite" target="_blank" title="En savoir plus">Intégrabilité <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
             <div class="checkup-line-percent">
                 <div id="section-loader-INT" class="section-loader" ng-show="results['INT']['loading']"></div>
-                <div class="c100 p{{results['INT']['percent']}} {{results['INT']['color']}} big" ng-hide="results['INT']['loading']">
+                <div id="section-result-INT" class="c100 p{{results['INT']['percent']}} {{results['INT']['color']}} big" ng-hide="results['INT']['loading']">
                     <span>{{results['INT']['percent']}}%</span>
                     <div class="slice">
                         <div class="bar"></div>
@@ -115,7 +115,7 @@
             <div class="checkup-line-section"><i class="fa fa-search-plus" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#visibilite" target="_blank" title="En savoir plus">Visibilité <i class="fa fa-question-circle quest-cicrle " aria-hidden="true"></i></a></div>
             <div class="checkup-line-percent">
                 <div id="section-loader-VIS" class="section-loader" ng-show="results['VIS']['loading']"></div>            
-                <div class="c100 p{{results['VIS']['percent']}} {{results['VIS']['color']}} big" ng-hide="results['VIS']['loading']">
+                <div id="section-result-VIS" class="c100 p{{results['VIS']['percent']}} {{results['VIS']['color']}} big" ng-hide="results['VIS']['loading']">
                     <span>{{results['VIS']['percent']}}%</span>
                     <div class="slice">
                         <div class="bar"></div>
@@ -130,7 +130,7 @@
             <div class="checkup-line-section"><i class="fa fa-legal" aria-hidden="true"></i> <a href="https://doc.digital-facile.yb.run/CheckUp/#legalite" target="_blank" title="En savoir plus">Légalité <i class="fa fa-question-circle quest-cicrle" aria-hidden="true"></i></a></div>
             <div class="checkup-line-percent">
                 <div id="section-loader-LEG" class="section-loader" ng-show="results['LEG']['loading']"></div>            
-                <div class="c100 p{{results['LEG']['percent']}} {{results['LEG']['color']}} big" ng-hide="results['LEG']['loading']">
+                <div id="section-result-LEG" class="c100 p{{results['LEG']['percent']}} {{results['LEG']['color']}} big" ng-hide="results['LEG']['loading']">
                     <span>{{results['LEG']['percent']}}%</span>
                     <div class="slice">
                         <div class="bar"></div>
