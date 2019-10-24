@@ -313,5 +313,8 @@ function($http, $scope, $rootScope, $location, $interval, $q, $uibModal, ngToast
         if(window.location.hash) {
             console.log(window.location.hash);
         }
+        else {
+            console.log('no hash found');
+        }
     })();
 }]);
