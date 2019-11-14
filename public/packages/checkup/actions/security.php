@@ -97,10 +97,12 @@ if( count($results) == 0 ) {
     }
 
     $evidences = [
-        "wordpress" => ['wordpress', 'wp-content', 'wp-includes', '.w.org', '.wp.com', 'wp.me'],
-        "drupal"    => ["drupal"],
-        "joomla"    => ["joomla", "/media/jui/"],
-        "typo3"     => ["t3js", "t3o"]
+        'wordpress' => ['wordpress', 'wp-content', 'wp-includes', '.w.org', '.wp.com', 'wp.me'],
+        'drupal'    => ['drupal'],
+        'joomla'    => ['joomla', '/media/jui/'],
+        'typo3'     => ['t3js', 't3o'],
+        'spip'      => ['SPIP', 'spip.php'],
+        'wix'       => ['Wix.com Website Builder', 'X-Wix-Meta-Site-Id']        
     ];        
 
     foreach($evidences as $tested_cms => $clues) {
@@ -117,7 +119,8 @@ if( count($results) == 0 ) {
     $evidences = [
         'wordpress'    => ['/wp-config.php', '/wp-content/', '/wp-content/uploads/'],
         'drupal'       => ['/authorize.php', '/cron.php', '/install.php', '/upgrade.php'],
-        'joomla'       => ['/images', '/tmp', '/cache']
+        'joomla'       => ['/images', '/tmp', '/cache'],
+        'spip'         => ['/config', '/ecrire/auth', '/ecrire/plugins']
     ];
 
     if(isset($evidences[$cms_brand])) {
