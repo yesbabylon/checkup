@@ -45,7 +45,9 @@ $content = $report['content'];
 
 
 // search for PER results for given report
-$category = TestCategory::search(['name', '=', 'PER'])->read(['tests_ids'])->first();    
+$category = TestCategory::search(['name', '=', 'PER'])
+                        ->read(['tests_ids'])
+                        ->first();    
 $results = Result::search([['report_id', '=', $report_id], ['test_id', 'in', $category['tests_ids']]])
                    ->read(['value', 'pass', 'test_id' => ['name', 'description']])
                    ->get();

@@ -123,7 +123,9 @@ if( count($results) == 0 ) {
                     'q'   => 'cache:'.$domain
                 ])->send();
 
-    if(intval($response->status()) == 200) $indexed = true;
+    if(intval($response->status()) == 200 || $index_count) {
+        $indexed = true;
+    }
 
     if(!$indexed) {
         // not indexed

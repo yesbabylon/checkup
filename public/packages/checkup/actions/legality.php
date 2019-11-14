@@ -27,23 +27,20 @@ list($params, $providers) = announce([
     'providers'     => ['context']
 ]);
 
-$loaded_extensions = get_loaded_extensions();
-if(!in_array('curl', $loaded_extensions)) {
-    throw new Exception('Dependency is missing: cURL', QN_ERROR_INVALID_CONFIG);
-}
-
 list($context) = [ $providers['context'] ];
 
 list($report_id) = [ $params['report_id'] ];
 
 
 // check received report ID validity
-$report = Report::search(['id', '=', $report_id])->read(['id', 'date', 'domain'])->first();
+$report = Report::search(['id', '=', $report_id])->read(['id', 'date', 'domain', 'url', 'content'])->first();
 if(!$report) throw new Exception('Unknown report', QN_ERROR_INVALID_PARAM); 
 
 // retrieve URL
 $domain = $report['domain'];
-$url = 'http://'.$domain;
+$url = $report['url'];
+$content = $report['content'];
+
 
 // search for LEG results for given report
 $category = TestCategory::search(['name', '=', 'LEG'])
@@ -64,99 +61,69 @@ if( count($results) == 0 ) {
     $terms = false;
     $privacy = false;
         
-    // cURL options (same for all calls)
-    $options = [
-        CURLOPT_CUSTOMREQUEST  => "GET",        
-        CURLOPT_POST           => false,        
-        CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows NT 6.1; rv:8.0) Gecko/20100101 Firefox/8.0',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER         => true,    
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_ENCODING       => "",       // handle all encodings
-        CURLOPT_AUTOREFERER    => true,     // set referer on redirect
-        CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
-        CURLOPT_TIMEOUT        => 120,      // timeout on response
-        CURLOPT_MAXREDIRS      => 5         // stop after 5 redirects
+
+    // cookie consent
+    $evidences = [
+        'cookie-secure'     =>  ['cdn.cookie-secure.com'],      // https://cdn.cookie-secure.com
+        'cokiebot'          =>  ['consent.cookiebot.com'],      // https://consent.cookiebot.com
+        'cookie-consent'    =>  ['cookieconsent.insites.com'],  // https://cookieconsent.insites.com
+        'tarteaucitron'     =>  ['tarteaucitron.js'],           // tarteaucitron.js
+        'quantcast-GDPR-CMP'=>  ['quantcast.mgr.consensu.org'], // https://quantcast.mgr.consensu.org
+        'trustarc-CCM'      =>  ['consent.truste.com/notice'],  // https://consent.truste.com/notice
+        'other'             =>  ['CookieConsent', 'privacy-cookie-declaration', 'cookies', 'cookie-consent', 'cookie-notice']
     ];
 
-    // init cURL
-    $ch = curl_init($url); 
-    curl_setopt_array($ch, $options);
-
-    // request given URL
-    if($content = curl_exec($ch)) {
-        // connect to the targeted URL
-        $info = curl_getinfo($ch);
-
-        // cookie consent
-        $evidences = [
-            'cookie-secure'     =>  ['cdn.cookie-secure.com'], // https://cdn.cookie-secure.com
-            'cokiebot'          =>  ['consent.cookiebot.com'], // https://consent.cookiebot.com
-            'cookie-consent'    =>  ['cookieconsent.insites.com'], // https://cookieconsent.insites.com
-            'tarteaucitron'     =>  ['tarteaucitron.js'], // tarteaucitron.js
-            'quantcast-GDPR-CMP'=>  ['quantcast.mgr.consensu.org'], // https://quantcast.mgr.consensu.org
-            'trustarc-CCM'      =>  ['consent.truste.com/notice'], // https://consent.truste.com/notice
-            'other'             =>  ['/privacy-cookie-declaration', '/cookies', '/cookie-consent', 'cookie-notice']
-        ];
-
-        foreach($evidences as $clues) {
-            foreach($clues as $clue) {
-                if(strpos($content, $clue) !== false) {
-                    $cookies = true;
-                    break 2;
-                }
+    foreach($evidences as $clues) {
+        foreach($clues as $clue) {
+            if(stripos($content, $clue) !== false) {
+                $cookies = true;
+                break 2;
             }
         }
-        
-        // legal notice
-        $evidences = [
-            "legal" => ['/mentions-legales', '/legal' ]
-        ];        
-
-        foreach($evidences as $tested_cms => $clues) {
-            foreach($clues as $clue) {
-                if(strpos($content, $clue) !== false) {
-                    $legal = true;
-                    break 2;
-                }
-            }
-        }
-        
-        // terms notice
-        $evidences = [
-            "terms" => ['/conditions', '/terms', '/cgv', '/conditions-generales' ]
-        ];        
-
-        foreach($evidences as $tested_cms => $clues) {
-            foreach($clues as $clue) {
-                if(strpos($content, $clue) !== false) {
-                    $terms = true;
-                    break 2;
-                }
-            }
-        }
-
-                
-        // privacy notice
-        $evidences = [
-            "privacy" => ['/donnees-personnelles', '/privacy', '/privacy-policy', '/politique-de-confidentialite', '/gdpr-consent' ]
-        ];        
-
-        foreach($evidences as $tested_cms => $clues) {
-            foreach($clues as $clue) {
-                if(strpos($content, $clue) !== false) {
-                    $privacy = true;
-                    break 2;
-                }
-            }
-        }
-        
     }
-    else {
-        throw new Exception("Unable to fetch content from requested location:".curl_error($ch), QN_ERROR_UNKNOWN);
-    }
+    
+    // legal notice
+    $evidences = [
+        "legal" => ['/mentions-legales', '/legal' ]
+    ];        
 
-    curl_close($ch);    
+    foreach($evidences as $tested_cms => $clues) {
+        foreach($clues as $clue) {
+            if(strpos($content, $clue) !== false) {
+                $legal = true;
+                break 2;
+            }
+        }
+    }
+    
+    // terms notice
+    $evidences = [
+        "terms" => ['/conditions', '/terms', '/cgv', '/conditions-generales' ]
+    ];        
+
+    foreach($evidences as $tested_cms => $clues) {
+        foreach($clues as $clue) {
+            if(strpos($content, $clue) !== false) {
+                $terms = true;
+                break 2;
+            }
+        }
+    }
+   
+    // privacy notice
+    $evidences = [
+        "privacy" => ['donnees-personnelles', 'privacy', 'privacy-policy', 'politique-de-confidentialite', 'gdpr-consent', 'euconsent' ]
+    ];        
+
+    foreach($evidences as $tested_cms => $clues) {
+        foreach($clues as $clue) {
+            if(strpos($content, $clue) !== false) {
+                $privacy = true;
+                break 2;
+            }
+        }
+    }
+    
 
     $result = [
         'COOKIES_CONSENT'   =>  intval($cookies),
