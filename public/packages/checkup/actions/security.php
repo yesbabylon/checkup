@@ -63,6 +63,7 @@ if( count($results) == 0 ) {
     $cms = false;
     $cms_brand = 'unknown';
     $tree_secure = true;
+    $login_secure = true;
     $js_vulnerabilities = [];    
 
 
@@ -102,7 +103,8 @@ if( count($results) == 0 ) {
         'joomla'    => ['joomla', '/media/jui/'],
         'typo3'     => ['t3js', 't3o'],
         'spip'      => ['SPIP', 'spip.php'],
-        'wix'       => ['Wix.com Website Builder', 'X-Wix-Meta-Site-Id']        
+        'wix'       => ['Wix.com Website Builder', 'X-Wix-Meta-Site-Id'],
+        'odoo'      => ['Odoo', 'odoo.define', 'odoo.com']
     ];        
 
     foreach($evidences as $tested_cms => $clues) {
@@ -115,7 +117,9 @@ if( count($results) == 0 ) {
         }
     }
 
-    // security checks specific to each CMS 
+    // security checks specific to each CMS
+    
+    // test directories that should be protected (should return a 403 error)
     $evidences = [
         'wordpress'    => ['/wp-config.php', '/wp-content/', '/wp-content/uploads/'],
         'drupal'       => ['/authorize.php', '/cron.php', '/install.php', '/upgrade.php'],
@@ -131,9 +135,30 @@ if( count($results) == 0 ) {
                 $tree_secure = false;
                 break;
             }
-
         }
     }
+
+    // test access to known login forms (should return a 404 error)
+    $evidences = [
+        'wordpress'    => ['/wp-login.php'],
+        'drupal'       => ['/?q=user', '/user/login'],
+        'joomla'       => ['/administrator'],
+        'typo3'        => ['/typo3'],
+        'spip'         => ['/spip.php?page=login']
+    ];
+
+    if(isset($evidences[$cms_brand])) {
+        foreach($evidences[$cms_brand] as $test) {
+            $request = new HttpRequest($test, ['Host' => $domain]);
+            $response = $request->send();
+            if(intval($response->status()) != 404) {
+                $login_secure = false;
+                break;
+            }
+        }
+    }    
+    
+// todo : handle login secure
 
     // store results
     $result = [
@@ -142,6 +167,7 @@ if( count($results) == 0 ) {
         'SSL'                   =>  intval($ssl),
         'JS_VULNERABILITY'      =>  count($js_vulnerabilities),
         'TREE_SECURE'           =>  intval($tree_secure),
+        'LOGIN_SECURE'          =>  intval($login_secure),        
         'JS_VULNERABILITIES'    =>  $js_vulnerabilities
     ];
 
@@ -153,6 +179,7 @@ if( count($results) == 0 ) {
 
         switch($test['name']) {
             case 'TREE_SECURE':
+            case 'LOGIN_SECURE':            
             case 'SSL':
                 $pass = (bool) $value;
                 break;
